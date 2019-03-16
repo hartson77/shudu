@@ -1,28 +1,76 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Menu
+      v-show="menuIsShow"
+      @menuSelect="menuSelect"
+    />
+    <ShuduTable ref="table" />
+    <InputZone />
+    <Toolbar @showMenu="showMenu" />
+    <SpanTime />
+    <cube-popup
+      type="pause-popup"
+      content="<i>暂停</i>"
+      :mask-closable="true"
+      @mask-click="hideAndStart"
+      ref="pausePopup" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Menu from './components/Menu'
+import ShuduTable from './components/ShuduTable'
+import InputZone from './components/InputZone'
+import Toolbar from './components/Toolbar'
+import SpanTime from './components/SpanTime'
 
+import { mapMutations } from 'vuex'
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    Menu,
+    ShuduTable,
+    InputZone,
+    Toolbar,
+    SpanTime
+  },
+  data () {
+    return {
+      menuIsShow: true,
+    }
+  },
+  methods: {
+    showMenu () {
+      this.menuIsShow = true
+    },
+    menuSelect (id) {
+      this.menuIsShow = false
+      this.startTimer()
+       // eslint-disable-next-line
+      console.log(this.shuduArray)
+       // eslint-disable-next-line
+      console.log(id)
+    },
+    hideAndStart () {
+      this.$refs.pausePopup.hide()
+      this.startTimer()
+    },
+    ...mapMutations([
+      'startTimer'
+    ])
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="stylus">
+.greenColor
+  color green
+#app
+  .menu
+    z-index 100
+  .cube-pause-popup
+    i
+      color #fff
+      font-size 20vw
+      font-weight bold 
 </style>
