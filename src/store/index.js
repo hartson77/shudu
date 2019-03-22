@@ -9,6 +9,7 @@ const state = {
   // 计时用的时钟ID
   timer: null,
   // 矩阵二维数组
+  gameoverState: false,
   matrix: initMatrix(9), 
   // 面板输入的数字索引 0-8 -> 1-9, 9->删除
   inputIndex: -1,
@@ -57,6 +58,9 @@ const mutations = {
   popNextStack (state) {
     state.popData = state.nextStack.pop()
   },
+  toggleState (state) {
+    state.gameoverState = !state.gameoverState
+  }
 }
 
 export default new Vuex.Store({

@@ -1,21 +1,23 @@
 <template>
   <div>
     <cube-toolbar
-    :actions="actions"
-    @click="clickHandler"></cube-toolbar> 
+      :actions="actions"
+      @click="clickHandler"
+      :more-actions="moreActions"
+    ></cube-toolbar> 
   </div>
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 export default {
   data() {
     return {
-      spanTime: '123:23',
+      spanTime: '',
       actions: [
         {
           text: '暂停',
-          action: 'pauseGame'
+          action: 'pauseGame',
         },
         {
           text: '重新开始',
@@ -25,8 +27,23 @@ export default {
           text: '新游戏',
           action: 'renewGame'
         }
+      ],
+      moreActions: [
+        {
+          text: '看答案',
+          action: 'getAnswer'
+        },
+        {
+          text: '自定义开始',
+          action: 'customStart'
+        }
       ]
     }
+  },
+  computed: {
+    ...mapState([
+      'gameoverState'
+    ])
   },
   methods: {
     ...mapMutations([
@@ -35,26 +52,20 @@ export default {
       'startTimer'
     ]),
     pauseGame () {
-      //debug
-      // if (this.actions[0].text === '暂停') {
-      //   this.pauseTimer()
-      //   this.actions[0].text = '恢复'
-      // } else if (this.actions[0].text === '恢复') {
-      //   this.startTimer()
-      //   this.actions[0].text = '暂停'
-      // }
-      const popup = this.$parent.$refs.pausePopup
-      popup.show()
-      this.pauseTimer()
+      this.$parent.pauseGame()
     },
     resetGame () {
-      // todo 清除所有用户填入数字
-      this.resetTimer()
-      this.startTimer()
+      this.$parent.startGame('reset') //todo debug
     },
     renewGame () {
       this.resetTimer()
       this.$emit('showMenu')
+    },
+    getAnswer () {
+      this.$parent.getAnswer()
+    },
+    customStart () {
+      this.$parent.customStart()
     },
     clickHandler(item) {
       if (item.action) {

@@ -1,29 +1,25 @@
 <template>
   <div class="span-time">
     <i class="cubeic-time"></i>
-    <span>{{getSpanTime}}</span>
+    <span>{{getTimeString}}</span>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import { getSpanTime } from '../assets/js/util'
 export default {
   computed: mapState({
-    getSpanTime (state) {
-      let hou = Math.floor(state.spanSecond / 3600)
-      hou = hou.toString().padStart(2, 0)
-      let min =  Math.floor(state.spanSecond / 60 % 60) 
-      min = min.toString().padStart(2, 0)
-      let sec = Math.floor(state.spanSecond % 60)
-      sec = sec.toString().padStart(2, 0)
-      return hou + ':' + min + ':' + sec
+    getTimeString (state) {
+      return getSpanTime(state.spanSecond)
     }
   })
 }
 </script>
 <style lang="stylus" scoped>
 .span-time
-  font-size 4vh
+  padding-top 1.5vh
+  font-size 3vh
   text-align center
   color #666
   span

@@ -1,8 +1,7 @@
-import {relateArr, getBlockIndex} from './util'
+import { relateArr, getBlockIndex } from './util'
 class Blankcell {
   constructor (i, j, array) {
-    this.index = [i, j]
-    const {rowArr, columnArr, blockArr} = relateArr(i, j, array)
+    const { rowArr, columnArr, blockArr } = relateArr(i, j, array)
     this.rowArr = rowArr
     this.columnArr = columnArr
     this.blockArr = blockArr
@@ -13,7 +12,7 @@ class Blankcell {
   getPossibleValue () {
     const resArr = []
     const tmpArr = this.rowArr.concat(this.columnArr, this.blockArr)
-    for (let i = 1; i < 10; i ++) {
+    for (let i = 1; i < 10; i++) {
       if (!tmpArr.includes(i)) {
         resArr.push(i)
       }
@@ -23,7 +22,7 @@ class Blankcell {
   getImpossibleValue () {
     const resArr = []
     const tmpArr = this.rowArr.concat(this.columnArr, this.blockArr)
-    for (let i = 1; i < 10; i ++) {
+    for (let i = 1; i < 10; i++) {
       if (tmpArr.includes(i)) {
         resArr.push(i)
       }

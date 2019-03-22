@@ -1,13 +1,12 @@
 import BlankCell from './blankCell'
-import {searchSame, getRemainder, deepCopy, getUndoCellAmount} from './util'
-import verifyMatrix from './verifymatrix';
+import { searchSame, getRemainder, deepCopy, getUndoCellAmount } from './util'
+import verifyMatrix from './verifymatrix'
 class Matrix {
   constructor (arr) {
-    if (81 - getUndoCellAmount(arr) < 17)
-      throw '提示数不能小于17个'
+    if (81 - getUndoCellAmount(arr) < 17) { throw new Error('提示数不能小于17个') }
     this.array = arr
     this.blankCellList = this.searchBlankCell()
-    //矩阵是否更新过标志,即是否有空格填入值
+    // 矩阵是否更新过标志,即是否有空格填入值
     this.updateFlag = false
   }
   /**
@@ -38,7 +37,7 @@ class Matrix {
         const [y, x] = v.index
         this.array[y][x] = v.value
       })
-      //更新属性：空表格对象列表
+      // 更新属性：空表格对象列表
       this.blankCellList = this.searchBlankCell()
       this.updateFlag = true
     } else {
@@ -51,7 +50,7 @@ class Matrix {
   */
   unique () {
     const tmpArr = []
-    for (let i = 0 ; i < this.blankCellList.length; i ++) {
+    for (let i = 0; i < this.blankCellList.length; i++) {
       const possible = this.blankCellList[i].possibleValue
       if (possible.length === 1) {
         const tmpObj = {}
@@ -68,14 +67,14 @@ class Matrix {
   */
   exclude () {
     const res = []
-    for (let i = 0 ; i < this.blankCellList.length; i ++) {
+    for (let i = 0; i < this.blankCellList.length; i++) {
       const possible = this.blankCellList[i].possibleValue
       const rowArr = [possible]
       const columnArr = [possible]
       const blockArr = [possible]
       const [y, x] = this.blankCellList[i].index
       const blockIndex = this.blankCellList[i].blockIndex
-      for (let j = 0; j < this.blankCellList.length; j ++) {
+      for (let j = 0; j < this.blankCellList.length; j++) {
         if (j !== i) {
           const [a, b] = this.blankCellList[j].index
           const bi = this.blankCellList[j].blockIndex
@@ -84,23 +83,21 @@ class Matrix {
           if (bi === blockIndex) blockArr.push(this.blankCellList[j].impossibleValue)
         }
       }
-      let onlyValue = searchSame(rowArr)
-        || searchSame(columnArr)
-        || searchSame(blockArr) 
+      let onlyValue = searchSame(rowArr) || searchSame(columnArr) || searchSame(blockArr)
       if (onlyValue) {
         res.push({
           index: this.blankCellList[i].index,
           value: onlyValue
         })
-      } 
+      }
     }
-    //去重
-    for (let i = 0; i < res.length; i ++) {
+    // 去重
+    for (let i = 0; i < res.length; i++) {
       if (!res.mutiFlag) {
-        for (let j = i + 1; j < res.length; j ++) {
-            if (i !== j && res[i].index === res[j].index && res[i].value === res[j].value) {
-              res[j].mutiFlag = true
-            }
+        for (let j = i + 1; j < res.length; j++) {
+          if (i !== j && res[i].index === res[j].index && res[i].value === res[j].value) {
+            res[j].mutiFlag = true
+          }
         }
       }
     }
@@ -113,7 +110,7 @@ class Matrix {
   */
   remaind () {
     const tmpArr = []
-    for (let i = 0; i < this.blankCellList.length; i ++) {
+    for (let i = 0; i < this.blankCellList.length; i++) {
       const bcell = this.blankCellList[i]
       const tmpArr = bcell.rowArr.concat(bcell.columnArr, bcell.blockArr)
       const fillNum = getRemainder(tmpArr)
@@ -141,7 +138,7 @@ class Matrix {
     }
   }
 
-  //找到可填入候选值数量最少的空格(第一个)
+  // 找到可填入候选值数量最少的空格(第一个)
   /**
   * 在未填空格中找到可填候选值最少的那个单元格
   * @method findMinPossibleCell
@@ -204,11 +201,11 @@ class Matrix {
     }
     solve()
     if (resArr.length === 0) {
-      throw '该数独题无解，或者俺还不会解'
+      throw new Error('该数独题无解，或者俺还不会解')
     } else if (resArr.length === 1) {
       return resArr[0]
     } else {
-      throw '该数独题有多个解，不符合唯一解的要求'
+      throw new Error('该数独题有多个解，不符合唯一解的要求')
     }
   }
 }

@@ -2,34 +2,18 @@ import Matrix from './matrix'
 // import {getUndoCellAmount} from './util'
 
 const answerArr = [
-  [0, 7, 2, 0, 0, 0, 6, 8, 0],
-  [1, 0, 0, 0, 2, 0, 0, 0, 5],
-  [6, 0, 0, 0, 0, 0, 0, 0, 9],
-  [0, 0, 1, 0, 7, 0, 5, 0, 0],
-  [0, 0, 0, 8, 9, 4, 0, 0, 0],
-  [0, 3, 0, 0, 0, 0, 0, 9, 0],
-  [2, 0, 0, 9, 0, 1, 0, 0, 4],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 5, 0, 6, 0, 3, 0, 1, 0]
+  [7, 0, 0, 4, 0, 0, 8, 1, 0],
+  [0, 0, 0, 0, 0, 0, 7, 2, 3],
+  [0, 0, 0, 7, 1, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 6, 0, 4, 0],
+  [0, 0, 6, 5, 9, 4, 1, 0, 0],
+  [0, 5, 0, 3, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 5, 8, 0, 0, 0],
+  [8, 4, 9, 0, 0, 0, 0, 0, 0],
+  [0, 2, 5, 0, 0, 7, 0, 0, 9]
 ]
-// const str = '034000200020014073800003004051206000060040010000501760600100009340750020002000380'
-// const answerArr = Array.from({ length: 9 }, v => [])
-// const tmpArr = [...str].map(v => parseInt(v))
-// let index = 0
-// for (let i = 0; i < 9; i++) {
-//   for (let j = 0; j < 9; j++) {
-//     answerArr[i][j] = tmpArr[index++]
-//   }
-// }
-
-try {
-  const matrix = new Matrix(answerArr)
-  const res = matrix.solvePuzzle()
-  console.log(res)
-}  catch (e) {
-  console.log(e)
-}
-
+const matrix = new Matrix(answerArr)
+matrix.resolve()
 
 // easy
 // const answerArr = [

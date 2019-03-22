@@ -5,7 +5,7 @@
         class="pn-button"
         :outline="true"
         :inline="true"
-        :disabled = "isDisabledPrevButton"
+        :disabled="isDisabledPrevButton||gameoverState"
         @click="pnClick"
       >
         <i class="cubeic-back"></i>
@@ -19,6 +19,7 @@
         v-for="(item,index) in btnData"
         :key="index"
         :active="item.isActive"
+        :disabled="gameoverState"
         @click="inputBtnClick"
       >
         {{item.text}}
@@ -28,7 +29,7 @@
       <cube-button
         :outline="true"
         :inline="true"
-        :disabled = "isDisabledNextButton"
+        :disabled ="isDisabledNextButton||gameoverState"
         class="pn-button"
         @click="nextClick"
       >
@@ -55,6 +56,7 @@ export default {
       'prevStack',
       'nextStack',
       'popData',
+      'gameoverState'
     ]),
     isDisabledPrevButton () {
       return this.prevStack.length ? false : true || false
@@ -99,14 +101,14 @@ export default {
       this.popPrevStack()
       const {index, orignNum} = this.popData
       const num = orignNum
-      this.setIndexMatrix({index, num})
       this.pushNextStack(this.popData)
+      this.$parent.$refs.table.fillTd(index, num)
     },
     nextClick () {
       this.popNextStack()
       const {index, num} = this.popData
-      this.setIndexMatrix({index, num})
       this.pushPrevStack(this.popData)
+      this.$parent.$refs.table.fillTd(index, num)
     }
   }
 }
@@ -114,7 +116,7 @@ export default {
 <style lang="stylus" scoped>
 .input-zone
   display flex
-  padding 5vh
+  padding 1vh 5vh
   .center
     display flex
     height 12vh
