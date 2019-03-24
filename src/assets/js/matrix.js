@@ -1,6 +1,8 @@
 import BlankCell from './blankCell'
 import {searchSame, getRemainder, deepCopy, getUndoCellAmount} from './util'
 import verifyMatrix from './verifymatrix';
+// 递归次数阀值
+const THRESHOLD = 500
 class Matrix {
   constructor (arr) {
     if (81 - getUndoCellAmount(arr) < 17)
@@ -178,7 +180,12 @@ class Matrix {
   */
   solvePuzzle () {
     const resArr = []
+    let count = 0
     const solve = () => {
+      // debug
+      if (count++ > THRESHOLD) {
+        throw '数独题不合法'
+      }
       this.solveMethods()
       if (this.blankCellList.length > 0) {
         if (!this.check()) return

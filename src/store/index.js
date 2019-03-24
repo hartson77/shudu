@@ -28,6 +28,7 @@ const mutations = {
   },
   pauseTimer (state) {
     clearInterval(state.timer)
+    state.timer = null
   },
   startTimer (state) {
     state.timer = setInterval(() => {

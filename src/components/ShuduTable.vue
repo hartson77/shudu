@@ -18,7 +18,7 @@
 <script>
 import { mapMutations, mapState } from 'vuex'
 import Blankcell from '../assets/js/blankCell'
-import { getUndoCellAmount, getSpanTime } from '../assets/js/util'
+import { getUndoCellAmount } from '../assets/js/util'
 import verifyMatrix from '../assets/js/verifymatrix'
 export default {
   data () {
@@ -56,17 +56,6 @@ export default {
         }
       }
       return false
-    },
-    showAlert(spanTime) {
-      this.$createDialog({
-        type: 'alert',
-        title: '成功解题',
-        content: '用时：' + spanTime,
-        icon: 'cubeic-good'
-        // onConfirm: () => {
-        //   this.$parent.showMenu()
-        // }
-      }).show()
     },
     // 新游戏开始时，删除所有单元格的全部状态
     clearAllTdClass() {
@@ -123,10 +112,7 @@ export default {
         if (!this.hasInvalidTd() && getUndoCellAmount(this.matrix) === 0) {
           // 有上面那个hasValidTd判断, 不需要这个判断了，暂时放着
           if (verifyMatrix(this.matrix)) {
-            this.pauseTimer()
-            const timeStr = getSpanTime(this.spanSecond)
-            this.toggleState()
-            this.showAlert(timeStr)
+            this.$parent.endGame()
           }
         }
       }

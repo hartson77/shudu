@@ -58,7 +58,6 @@ export default {
       this.$parent.startGame('reset') //todo debug
     },
     renewGame () {
-      this.resetTimer()
       this.$emit('showMenu')
     },
     getAnswer () {
